@@ -33,7 +33,7 @@ class Ship {
     }
 }
 
-function newShip(length,headX,headY,alignment, occupiedCords) {
+function newShip(length,headX,headY,alignment,occupiedCords) {
     if(length < 1) {
         throw("Ship is too small");
     }
@@ -46,7 +46,7 @@ function newShip(length,headX,headY,alignment, occupiedCords) {
     if(checkShipConflict(headX,headY,alignment,length,occupiedCords) === 1) {
         throw("Ship conflict error");
     }
-    if(alignment != "vertical" && alignment != "horizontal") {
+    if((alignment !== "vertical") && (alignment !== "horizontal")) {
         throw("Alignment must be either vertical or horizontal");
     }
     const newShip = new Ship(length, headX,headY,alignment);
