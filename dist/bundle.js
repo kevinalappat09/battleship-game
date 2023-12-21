@@ -1,0 +1,1 @@
+(()=>{"use strict";class t{constructor(t){if(t<1)throw"Ship too small";if(t>3)throw"Ship too big";this.length=t,this.hits=0}getHit(){this.hits++}isSunk(){return this.hits===this.length?1:0}}function i(s){return i=new t(s)}const s=i(1);console.log(s)})();
