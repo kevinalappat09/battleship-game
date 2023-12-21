@@ -1,29 +1,45 @@
 import newShip from "./ship";
-import createGameShipObject from "./gameShipObject";
 import checkBoundary from "./checkBoundary";
 import checkShipConflict from "./checkShipConflict";
+import getShipCords from "./getShipCords";
 
 class GameBoard {
-    //initialize the gameboard with 5 ships at specifcied locations.
     constructor() {
-        const ship1 = newShip(1);
-        const Ship1Object = createGameShipObject(ship1,1,1,"vertical");
-        
-        const ship2 = newShip(2);
-        const Ship2Object = createGameShipObject(ship2,4,4,"vertical");
-
-        const ship3 = newShip(2);
-        const Ship3Object = createGameShipObject(ship3, 4, 2, "horizontal");
-        
-        const ship4 = newShip(3);
-        const Ship4Object = createGameShipObject(ship4,7,7, "vertial");
-
-        const ship5 = newShip(3);
-        const Ship5Object = createGameShipObject(ship5, 1,9,"horizontal");
-        
-        this.ShipArray = [Ship1Object,Ship2Object,Ship3Object,Ship4Object,Ship5Object];
+        this.ShipArray = [];
         this.hitSpots = [];
+        this.occupiedSpots = [];
+        initializeShips();
     }
+
+    initializeShips() {
+        const ship1 = newShip(1,1,1,"vertical",[]);
+        this.ShipArray.push(ship1);
+        this.getOccupiedSpots();
+        
+        const ship2 = newShip(2,4,4,"vertical",this.occupiedSpots);
+        this.ShipArray.push(ship2);
+        this.getOccupiedSpots();
+
+        const ship3 = newShip(2,4,2,"horizontal",this.occupiedSpots);
+        this.ShipArray.push(ship3);
+        this.getOccupiedSpots();
+        
+        const ship4 = newShip(3,7,7,"vertical",this.occupiedSpots);
+        this.ShipArray.push(ship4);
+        this.getOccupiedSpots();
+
+        const ship5 = newShip(3,1,9,"horizontal",this.occupiedSpots);
+        this.ShipArray.push(ship5);
+        this.getOccupiedSpots();
+    }
+
+    getOccupiedSpots() {
+        this.occupiedSpots = [];
+        for(ship in this.ShipArray) {
+            this.occupiedSpots.push(getShipCords(ship.headX,ship.headY,ship.alignment,ship.length));
+        }
+    }
+
 
     moveShip(shipNo,newX,newY) {
         if(checkBoundary(newX,newY,this.ShipArray[shipNo-1].alignment) === 1,this.ShipArray[shipNo-1].ship.length) {
@@ -38,6 +54,10 @@ class GameBoard {
         // update the occupied heatmap
         this.ShipArray[shipNo-1].updateCords(newX,newY);
     }
+
+    // Rotate ship
+
+    // Recieve attack
 }
 
 function createNewGameBoard() {
