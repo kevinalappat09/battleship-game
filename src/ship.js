@@ -10,6 +10,7 @@ class Ship {
         this.alignment = alignment;
         this.shipCords = getShipCords(this.headX,this.headY,this.alignment,this.length);
         this.hits = 0;
+        this.isSunk = false;
     }
 
     getHit() {
@@ -26,6 +27,7 @@ class Ship {
 
     isSunk() {
         if(this.hits === this.length) {
+            this.isSunk = true;
             return true;
         } else {
             return false;

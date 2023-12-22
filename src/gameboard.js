@@ -84,6 +84,15 @@ class GameBoard {
     }
 
     // Recieve attack
+    receiveAttack(toAttackX, toAttackY) {
+        // check if coordinate is out of bounds.
+        // check if coordinate has already been hit
+        // add the coordinate to hitSpots
+        // check if the coordinate had a ship on it
+        // if yes -> increase the hits, check if the ship sunk -> set a sunk flag on the ship to true
+        // if no -> do nothing else.
+
+    }
 }
 
 function newGameBoard() {
