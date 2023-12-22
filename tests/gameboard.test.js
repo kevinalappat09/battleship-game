@@ -220,5 +220,91 @@ test("Gameboard : Move ship on itself", () => {
 
 
 // Rotate ship
+// Rotating out of boundary - 2 cases
+test("Gameboard : rotating ship out of bounds (vertical)", () => {
+    const gb = newGameBoard();
+    expect(() => {
+        gb.rotateShip(5,"vertical");
+    }).toThrow();
+});
+
+test("Gameboard : rotating ship out of bounds (horizontal)", () => {
+    const gb = newGameBoard();
+    gb.moveShip(2,9,4);
+    expect(() => {
+        gb.rotateShip(2,"horizontal");
+    }).toThrow();
+})
+
+// Rotating on another ship
+test("Gameboard : rotating ship on another ship", () => {
+    const gb = newGameBoard();
+    gb.moveShip(5,7,6);
+    expect(() => {
+        gb.rotateShip(5,"vertical");
+    }).toThrow();
+})
+
+// Successful rotation
+test("Gameboard : succefull rotation case", () => {
+    const gb = newGameBoard();
+    gb.rotateShip(3,"vertical");
+    console.log(gb);
+    expect(gb).toEqual(
+        {
+            shipArray : [
+                {
+                    length : 1,
+                    headX : 1,
+                    headY : 1,
+                    alignment : "vertical",
+                    shipCords : [[1,1]],
+                    hits : 0
+                },
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 4,
+                    alignment : "vertical",
+                    shipCords : [[4,4],[4,5]],
+                    hits : 0
+                },
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 2,
+                    alignment : "vertical",
+                    shipCords : [[4,2],[4,3]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 7,
+                    headY : 7,
+                    alignment : "vertical",
+                    shipCords : [[7,7],[7,8],[7,9]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 1,
+                    headY : 9,
+                    alignment : "horizontal",
+                    shipCords : [[1,9],[2,9],[3,9]],
+                    hits : 0
+                },
+            ],
+            hitSpots : [],
+            occupiedSpots : [
+                [1,1],
+                [4,4],[4,5],
+                [4,2],[4,3],
+                [7,7],[7,8],[7,9],
+                [1,9],[2,9],[3,9]
+            ]
+        }
+    )
+})
+
 
 // Recieve attack

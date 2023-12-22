@@ -65,6 +65,23 @@ class GameBoard {
     }
 
     // Rotate ship
+    rotateShip(shipNo,newAlign) {
+        const shipLength = this.shipArray[shipNo-1].length;
+        const shipX = this.shipArray[shipNo-1].headX;
+        const shipY = this.shipArray[shipNo-1].headY;
+
+        if(checkBoundary(shipX,shipY,newAlign,shipLength) === 1) {
+            const remSpots = getOccupiedExceptTarget(this.occupiedSpots,this.shipArray[shipNo-1].shipCords);
+            if(checkShipConflict(shipX,shipY,newAlign,shipLength,remSpots) === 0) {
+                this.shipArray[shipNo-1].updateCords(shipX, shipY, newAlign);
+                this.getOccupiedSpots();
+            } else {
+                throw("Rotate Ship : Ship conflict error");
+            }
+        } else {
+            throw("Rotate Ship : Check boundary error");
+        }
+    }
 
     // Recieve attack
 }
