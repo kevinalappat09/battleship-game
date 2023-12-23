@@ -22,8 +22,6 @@ class player {
     setColor(newColor) {
         this.color = newColor;
     }
-
-
 }
 
 function newPlayer(name,color) {

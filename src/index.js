@@ -1,4 +1,4 @@
-// Main screen appears allowing the user to choose between computer or player v player
+// Main screen appears allowing the user to choose between computer or player v player - DONE 
 // Based on the users choice the next screen is shown where the user or users can choose their name and color
 // Once the start game button is pressed the game
 // Let player one place their ships
@@ -10,6 +10,8 @@
 
 import init_main_screen_f from "./ui/screen/init_main_screen";
 import "./styles.css";
+import playCPUGame from "./game";
+import newPlayer from "./player";
 
 const bodyContainer = document.querySelector(".container");
 
@@ -32,4 +34,8 @@ function pregame() {
     mainRightButton.addEventListener("click",init_player_game);
 }
 
-pregame();
+const player1 = newPlayer("Bingus","red");
+player1.gameboard.receiveAttack(1,1);
+const player2 = newPlayer("Spoingus","blue");
+
+playCPUGame(player1,player2);
