@@ -111,6 +111,13 @@ class GameBoard {
                 }
         }
     }
+
+    allSunk() {
+        if(this.unsunkShips.length < 1) {
+            return true;
+        }
+        return false;
+    }
 }
 
 function newGameBoard() {
