@@ -1,0 +1,35 @@
+// Main screen appears allowing the user to choose between computer or player v player
+// Based on the users choice the next screen is shown where the user or users can choose their name and color
+// Once the start game button is pressed the game
+// Let player one place their ships
+// Once the player one is done placing their ships
+// If computer -> automate the process of placing ships
+// If another player -> let player two place their ships.
+// Begin the game loop until one of the players gameboards all sunk function returns true.
+// when that happens we need to reset the game again by mostly making new players
+
+import init_main_screen_f from "./ui/screen/init_main_screen";
+import "./styles.css";
+
+const bodyContainer = document.querySelector(".container");
+
+function init_CPU_game() {
+    console.log("Initialized CPU game");
+    bodyContainer.innerHTML = "";
+}
+
+function init_player_game() {
+    console.log("Initialzied player game");
+    bodyContainer.innerHTML = "";
+}
+
+function pregame() {
+    bodyContainer.appendChild(init_main_screen_f());
+    const mainLeftButton = document.querySelector(".main-left-button");
+    const mainRightButton = document.querySelector(".main-right-button");
+
+    mainLeftButton.addEventListener("click",init_CPU_game);
+    mainRightButton.addEventListener("click",init_player_game);
+}
+
+pregame();
