@@ -5,7 +5,7 @@ test("Correct initialization",() => {
     const gb = newGameBoard();
     expect(gb).toEqual(
         {
-            shipArray : [
+            unsunkShips : [
                 {
                     length : 1,
                     headX : 1,
@@ -48,6 +48,7 @@ test("Correct initialization",() => {
                 },
             ],
             hitSpots : [],
+            sunkShips : [],
             occupiedSpots : [
                 [1,1],
                 [4,4],[4,5],
@@ -104,7 +105,7 @@ test("Gameboard : Move ship on itself", () => {
     gb.moveShip(1,1,1);
     expect(gb).toEqual(
         {
-            shipArray : [
+            unsunkShips : [
                 {
                     length : 1,
                     headX : 1,
@@ -147,6 +148,7 @@ test("Gameboard : Move ship on itself", () => {
                 },
             ],
             hitSpots : [],
+            sunkShips : [],
             occupiedSpots : [
                 [1,1],
                 [4,4],[4,5],
@@ -164,7 +166,7 @@ test("Gameboard : Move ship on itself", () => {
     gb.moveShip(1,5,5);
     expect(gb).toEqual(
         {
-            shipArray : [
+            unsunkShips : [
                 {
                     length : 1,
                     headX : 5,
@@ -207,6 +209,7 @@ test("Gameboard : Move ship on itself", () => {
                 },
             ],
             hitSpots : [],
+            sunkShips : [],
             occupiedSpots : [
                 [5,5],
                 [4,4],[4,5],
@@ -249,10 +252,9 @@ test("Gameboard : rotating ship on another ship", () => {
 test("Gameboard : succefull rotation case", () => {
     const gb = newGameBoard();
     gb.rotateShip(3,"vertical");
-    console.log(gb);
     expect(gb).toEqual(
         {
-            shipArray : [
+            unsunkShips : [
                 {
                     length : 1,
                     headX : 1,
@@ -295,6 +297,7 @@ test("Gameboard : succefull rotation case", () => {
                 },
             ],
             hitSpots : [],
+            sunkShips : [],
             occupiedSpots : [
                 [1,1],
                 [4,4],[4,5],
@@ -307,4 +310,237 @@ test("Gameboard : succefull rotation case", () => {
 })
 
 
-// Recieve attack
+// Recieve attack : out of bounds
+test("Attack : coordinates out of X < 0", () => {
+    const gb = newGameBoard();
+    expect(() => {
+        gb.receiveAttack(-1,2)
+    }).toThrow();   
+});
+
+test("Attack :  coordinates out of Y < 0", () => {
+    const gb = newGameBoard();
+    expect(() => {
+        gb.receiveAttack(2,-1);
+    }).toThrow();
+});
+
+test("Attack : coordinates out of X > 9", () => {
+    const gb = newGameBoard();
+    expect(() => {
+        gb.receiveAttack(10,4);
+    }).toThrow();
+});
+
+test("Attack : coordinates out of Y > 9", () => {
+    const gb = newGameBoard();
+    expect(() => {
+        gb.receiveAttack(4,10);
+    }).toThrow();
+});
+
+//Recieve attack : already hit.
+test("Attack : coordinate already hit", () => {
+    const gb = newGameBoard();
+    gb.hitSpots.push([1,1]);
+    expect(() => {
+        gb.receiveAttack(1,1);
+    }).toThrow();
+});
+
+//Recieve attack : adding the coordinate to hit spots array
+test("Attack : adding the coordinate for hit spots", () => {
+    const gb = newGameBoard();
+    gb.receiveAttack(2,1);
+    expect(gb.hitSpots).toEqual(
+        [
+            [2,1]
+        ]
+    );
+});
+
+// Test if unsunk ship hit increases on attack
+test("Attack : unsunk ship", () => {
+    const gb = newGameBoard();
+    gb.receiveAttack(4,4);
+    expect(gb).toEqual(
+        {
+            unsunkShips : [
+                {
+                    length : 1,
+                    headX : 1,
+                    headY : 1,
+                    alignment : "vertical",
+                    shipCords : [[1,1]],
+                    hits : 0
+                },
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 4,
+                    alignment : "vertical",
+                    shipCords : [[4,4],[4,5]],
+                    hits : 1
+                },
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 2,
+                    alignment : "horizontal",
+                    shipCords : [[4,2],[5,2]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 7,
+                    headY : 7,
+                    alignment : "vertical",
+                    shipCords : [[7,7],[7,8],[7,9]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 1,
+                    headY : 9,
+                    alignment : "horizontal",
+                    shipCords : [[1,9],[2,9],[3,9]],
+                    hits : 0
+                },
+            ],
+            hitSpots : [[4,4]],
+            sunkShips : [],
+            occupiedSpots : [
+                [1,1],
+                [4,4],[4,5],
+                [4,2],[5,2],
+                [7,7],[7,8],[7,9],
+                [1,9],[2,9],[3,9]
+            ]
+        }
+    )
+})
+
+// Attacking 1 ship and sinking it
+test("Attacking : ship that will sink attacked", () => {
+    const gb = newGameBoard();
+    gb.receiveAttack(1,1);
+    expect(gb).toEqual(
+        {
+            unsunkShips : [
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 4,
+                    alignment : "vertical",
+                    shipCords : [[4,4],[4,5]],
+                    hits : 0
+                },
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 2,
+                    alignment : "horizontal",
+                    shipCords : [[4,2],[5,2]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 7,
+                    headY : 7,
+                    alignment : "vertical",
+                    shipCords : [[7,7],[7,8],[7,9]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 1,
+                    headY : 9,
+                    alignment : "horizontal",
+                    shipCords : [[1,9],[2,9],[3,9]],
+                    hits : 0
+                },
+            ],
+            hitSpots : [[1,1]],
+            sunkShips : [
+                {
+                    length : 1,
+                    headX : 1,
+                    headY : 1,
+                    alignment : "vertical",
+                    shipCords : [[1,1]],
+                    hits : 1
+                }
+            ],
+            occupiedSpots : [
+                [1,1],
+                [4,4],[4,5],
+                [4,2],[5,2],
+                [7,7],[7,8],[7,9],
+                [1,9],[2,9],[3,9]
+            ]
+        }
+    )
+})
+
+// Attacking two ship twice and sinking it
+test("Attack : 2 ship twice and sink", () => {
+    const gb = newGameBoard();
+    gb.receiveAttack(4,4);
+    gb.receiveAttack(4,5);
+    expect(gb).toEqual(
+        {
+            unsunkShips : [
+                {
+                    length : 1,
+                    headX : 1,
+                    headY : 1,
+                    alignment : "vertical",
+                    shipCords : [[1,1]],
+                    hits : 0
+                },
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 2,
+                    alignment : "horizontal",
+                    shipCords : [[4,2],[5,2]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 7,
+                    headY : 7,
+                    alignment : "vertical",
+                    shipCords : [[7,7],[7,8],[7,9]],
+                    hits : 0
+                },
+                {
+                    length : 3,
+                    headX : 1,
+                    headY : 9,
+                    alignment : "horizontal",
+                    shipCords : [[1,9],[2,9],[3,9]],
+                    hits : 0
+                },
+            ],
+            hitSpots : [[4,4],[4,5]],
+            sunkShips : [
+                {
+                    length : 2,
+                    headX : 4,
+                    headY : 4,
+                    alignment : "vertical",
+                    shipCords : [[4,4],[4,5]],
+                    hits : 2
+                }
+            ],
+            occupiedSpots : [
+                [1,1],
+                [4,4],[4,5],
+                [4,2],[5,2],
+                [7,7],[7,8],[7,9],
+                [1,9],[2,9],[3,9]
+            ]
+        }
+    )
+})
