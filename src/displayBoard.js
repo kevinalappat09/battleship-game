@@ -5,7 +5,7 @@ function getActivePlayerSide(player) {
     // Active player side div initialization
     const activePlayerSide = generateDiv("active-player-div");
     const activePlayerHeading = generateHeading("active-player-heading");
-    activePlayerHeading.textContent = "Your Board";
+    activePlayerHeading.textContent = `${player.name} Board`;
     activePlayerSide.appendChild(activePlayerHeading);
 
     // Giving the active player side color
@@ -17,14 +17,14 @@ function getActivePlayerSide(player) {
     }
 
     const activePlayerBoard = generateDiv("active-player-board");
-    for(let i=0; i<9; i++) {
-        for(let j=0;j<9;j++) {
+    for(let i=1; i<10; i++) {
+        for(let j=1;j<10;j++) {
             const gridSquare = generateDiv("active-player-grid-square");
-            if(player.gameboard.occupiedSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j) && player.gameboard.hitSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j)) {
+            if(player.gameboard.occupiedSpots.some(coord => coord[0] === i && coord[1] === j) && player.gameboard.hitSpots.some(coord => coord[0] === i && coord[1] === j)) {
                 gridSquare.style.backgroundColor = "var(--ship-hit-gold)";
-            } else if(player.gameboard.hitSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j)) {
+            } else if(player.gameboard.hitSpots.some(coord => coord[0] === i && coord[1] === j)) {
                 gridSquare.style.backgroundColor = "var(--missed-hit-black)";
-            } else if(player.gameboard.occupiedSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j)) {
+            } else if(player.gameboard.occupiedSpots.some(coord => coord[0] === i && coord[1] === j)) {
                 gridSquare.style.backgroundColor = "var(--set-ship-gray)";
             }
 
@@ -47,7 +47,7 @@ function getOppPlayerSide(oppPlayer) {
     // Opponent player side div initialization
     const oppPlayerSide = generateDiv("opp-player-div");
     const oppPlayerHeading = generateHeading("opp-player-heading");
-    oppPlayerHeading.textContent = "Opponent Board";
+    oppPlayerHeading.textContent = `${oppPlayer.name} Board`;
     oppPlayerSide.appendChild(oppPlayerHeading);
 
     // Giving the opp player side color
@@ -59,18 +59,14 @@ function getOppPlayerSide(oppPlayer) {
     }
 
     const oppPlayerBoard = generateDiv("opp-player-board");
-    for(let i=0; i<9; i++) {
-        for(let j=0;j<9;j++) {
+    for(let i=1; i<10; i++) {
+        for(let j=1;j<10;j++) {
             const gridSquare = generateDiv("opp-player-grid-square");
-            if(oppPlayer.gameboard.occupiedSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j) && oppPlayer.gameboard.hitSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j)) {
+            if(oppPlayer.gameboard.occupiedSpots.some(coord => coord[0] === i && coord[1] === j) && oppPlayer.gameboard.hitSpots.some(coord => coord[0] === i && coord[1] === j)) {
                 gridSquare.style.backgroundColor = "var(--ship-hit-gold)";
-            } else if(oppPlayer.gameboard.hitSpots.some(coord => coord[0]-1 === i && coord[1]-1 === j)) {
+            } else if(oppPlayer.gameboard.hitSpots.some(coord => coord[0] === i && coord[1] === j)) {
                 gridSquare.style.backgroundColor = "var(--missed-hit-black)";
-            } 
-
-            // add the event listener that gives errror if clicked
-            gridSquare.addEventListener("click",() => oppPlayerClickFunction(i,j,oppPlayer));
-
+            }
             oppPlayerBoard.appendChild(gridSquare);
         }
     }
@@ -79,12 +75,18 @@ function getOppPlayerSide(oppPlayer) {
     return oppPlayerSide;
 }
 
-function oppPlayerClickFunction(row,col, oppPlayer) {
-    oppPlayer.gameboard.receiveAttack(row,col);
-    console.log(oppPlayer.gameboard.hitSpots);
-}
+// function oppPlayerClickFunction(row,col, oppPlayer) {
+//     try {
+//         oppPlayer.gameboard.receiveAttack(row,col);
+//     } catch(err) {
+//         console.log(err);
+//         globalEndTurn = 0;
+//     }
+//     console.log(oppPlayer.gameboard.hitSpots);
+//     globalEndTurn = 1;
+// }
 
-function displayPlayerBoard(player, oppPlayer) {
+function displayPlayerBoard(player,oppPlayer) {
     const boardDiv = generateDiv("board-div");
     
     const activePlayerSide = getActivePlayerSide(player);
@@ -92,7 +94,6 @@ function displayPlayerBoard(player, oppPlayer) {
 
     boardDiv.appendChild(activePlayerSide);
     boardDiv.appendChild(oppPlayerSide);
-    
     // add event listeners to each grid
     return boardDiv;
 }

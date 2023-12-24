@@ -35,7 +35,6 @@ function pregame() {
 }
 
 const player1 = newPlayer("Bingus","red");
-player1.gameboard.receiveAttack(1,1);
 const player2 = newPlayer("Spoingus","blue");
 
 playCPUGame(player1,player2);

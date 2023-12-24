@@ -110,6 +110,7 @@ class GameBoard {
                     this.unsunkShips.splice(shipToHit,1);
                 }
         }
+        return true;
     }
 
     allSunk() {
