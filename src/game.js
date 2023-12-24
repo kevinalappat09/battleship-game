@@ -5,7 +5,7 @@ import generateHeading from "./ui/element/headingGen";
 const bodyContainer = document.querySelector(".container");
 
 
-function gameLoop(currPlayer,oppPlayer) {
+function gameLoop(currPlayer,oppPlayer,onComplete) {
     bodyContainer.innerHTML = "";
     bodyContainer.appendChild(displayPlayerBoard(currPlayer,oppPlayer));
 
@@ -21,16 +21,12 @@ function gameLoop(currPlayer,oppPlayer) {
             oppPlayer.gameboard.receiveAttack(toAttackX,toAttackY);
 
             if(oppPlayer.gameboard.allSunk()) {
-                bodyContainer.innerHTML = "";
-                const winMessage = generateHeading("win-message");
-                winMessage.style.backgroundColor = currPlayer.color;
-                winMessage.textContent = `${currPlayer.name} has won`;
-                bodyContainer.appendChild(winMessage);
+                onComplete(currPlayer);
                 return;
             }
             const p1 = currPlayer;
             const p2 = oppPlayer;
-            gameLoop(p2,p1);
+            gameLoop(p2,p1,onComplete);
         } catch(err) {
             console.log(err);
         }
@@ -43,16 +39,12 @@ function gameLoop(currPlayer,oppPlayer) {
                         oppPlayer.gameboard.receiveAttack(i+1,j+1);
 
                         if(oppPlayer.gameboard.allSunk()) {
-                            bodyContainer.innerHTML = "";
-                            const winMessage = generateHeading("win-message");
-                            winMessage.style.backgroundColor = currPlayer.color;
-                            winMessage.textContent = `${currPlayer.name} has won`;
-                            bodyContainer.appendChild(winMessage);
+                            onComplete(currPlayer);
                             return;
                         }
                         const p1 = currPlayer;
                         const p2 = oppPlayer;
-                        gameLoop(p2,p1);
+                        gameLoop(p2,p1,onComplete);
                     } catch(err) {
                         console.log(err);
                     }
@@ -89,9 +81,9 @@ function gameLoop(currPlayer,oppPlayer) {
 // }
 
 
-function playCPUGame(player1, CPU) {
+function playCPUGame(player1, CPU,onComplete) {
     bodyContainer.innerHTML = "";
-    gameLoop(player1,CPU);
+    gameLoop(player1,CPU,onComplete);
 }
 
 export default playCPUGame;

@@ -15,7 +15,19 @@ import newPlayer from "./player";
 import moveShip from "./moveShip";
 import moveCPUShips from "./moveCPUShips";
 
+import generateHeading from "./ui/element/headingGen";
+
 const bodyContainer = document.querySelector(".container");
+
+function displayWinMessage(player) {
+    if(player) {
+        bodyContainer.innerHTML = "";
+        const winMessage = generateHeading("win-message");
+        winMessage.style.backgroundColor = player.color;
+        winMessage.textContent = `${player.name} has won`;
+        bodyContainer.appendChild(winMessage);
+    }
+}
 
 function init_CPU_game() {
     const player1 = newPlayer("Bingus","red");
@@ -24,7 +36,9 @@ function init_CPU_game() {
     bodyContainer.innerHTML = "";
     moveShip(player1,() => {
         moveCPUShips(CPU,() => {
-            playCPUGame(player1,CPU);
+            playCPUGame(player1,CPU,(winner) => {
+                displayWinMessage(winner);
+            });
         })
         // Make it so that the playCPU game can take a function argument for oncomplete whihc will do as we say it to.
     });
