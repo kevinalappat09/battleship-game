@@ -13,19 +13,20 @@ import "./styles.css";
 import playCPUGame from "./game";
 import newPlayer from "./player";
 import moveShip from "./moveShip";
+import moveCPUShips from "./moveCPUShips";
 
 const bodyContainer = document.querySelector(".container");
 
 function init_CPU_game() {
     const player1 = newPlayer("Bingus","red");
-    const player2 = newPlayer("CPU","blue");
+    const CPU = newPlayer("CPU","blue");
 
     bodyContainer.innerHTML = "";
     moveShip(player1,() => {
-        console.log("Been there done that");
-        // Move CPU ships
-        // Play the CPU Game
-        // Once the game is finished display the final screen and return back to pregame function.
+        moveCPUShips(CPU,() => {
+            playCPUGame(player1,CPU);
+        })
+        // Make it so that the playCPU game can take a function argument for oncomplete whihc will do as we say it to.
     });
     
     

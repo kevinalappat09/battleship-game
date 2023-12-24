@@ -169,7 +169,7 @@ function moveShip(player,onConfirm) {
     moveContainer.appendChild(confirmButton);
 
     const helpContainer = generateDiv("help-container");
-    helpContainer.textContent = "Help content here";
+    helpContainer.textContent = "Click to rotate, Long press and enter coordinates to move";
     moveContainer.appendChild(helpContainer);
 
     bodyContainer.appendChild(moveContainer);
