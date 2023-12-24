@@ -75,17 +75,6 @@ function getOppPlayerSide(oppPlayer) {
     return oppPlayerSide;
 }
 
-// function oppPlayerClickFunction(row,col, oppPlayer) {
-//     try {
-//         oppPlayer.gameboard.receiveAttack(row,col);
-//     } catch(err) {
-//         console.log(err);
-//         globalEndTurn = 0;
-//     }
-//     console.log(oppPlayer.gameboard.hitSpots);
-//     globalEndTurn = 1;
-// }
-
 function displayPlayerBoard(player,oppPlayer) {
     const boardDiv = generateDiv("board-div");
     
@@ -94,7 +83,6 @@ function displayPlayerBoard(player,oppPlayer) {
 
     boardDiv.appendChild(activePlayerSide);
     boardDiv.appendChild(oppPlayerSide);
-    // add event listeners to each grid
     return boardDiv;
 }
 

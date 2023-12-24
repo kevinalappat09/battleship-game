@@ -16,8 +16,12 @@ import newPlayer from "./player";
 const bodyContainer = document.querySelector(".container");
 
 function init_CPU_game() {
-    console.log("Initialized CPU game");
+    const player1 = newPlayer("Bingus","red");
+    
+    const player2 = newPlayer("CPU","blue");
+
     bodyContainer.innerHTML = "";
+    playCPUGame(player1,player2);
 }
 
 function init_player_game() {
@@ -34,7 +38,4 @@ function pregame() {
     mainRightButton.addEventListener("click",init_player_game);
 }
 
-const player1 = newPlayer("Bingus","red");
-const player2 = newPlayer("Spoingus","blue");
-
-playCPUGame(player1,player2);
+pregame();
