@@ -21,7 +21,14 @@ function init_CPU_game() {
     const player2 = newPlayer("CPU","blue");
 
     bodyContainer.innerHTML = "";
-    moveShip(player1);
+    moveShip(player1,() => {
+        console.log("Been there done that");
+        // Move CPU ships
+        // Play the CPU Game
+        // Once the game is finished display the final screen and return back to pregame function.
+    });
+    
+    
 }
 
 function init_player_game() {

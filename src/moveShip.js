@@ -140,7 +140,7 @@ function getBoard(player) {
     return moveBoard;
 }
 
-function moveShip(player) {
+function moveShip(player,onConfirm) {
     const bodyContainer = document.querySelector(".container");
     bodyContainer.innerHTML = "";
     
@@ -161,6 +161,11 @@ function moveShip(player) {
     const confirmButton = generateButton("confirm-button");
     confirmButton.textContent = "Confirm";
     confirmButton.style.backgroundColor = colorToApply;
+    confirmButton.addEventListener("click",() => {
+        if(onConfirm && typeof onConfirm === "function") {
+            onConfirm();
+        }
+    })
     moveContainer.appendChild(confirmButton);
 
     const helpContainer = generateDiv("help-container");
@@ -168,6 +173,7 @@ function moveShip(player) {
     moveContainer.appendChild(helpContainer);
 
     bodyContainer.appendChild(moveContainer);
+
 }
 
 export default moveShip;
