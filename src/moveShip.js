@@ -15,6 +15,40 @@ function updateBoard(player) {
                 gridSquare.style.backgroundColor = "var(--set-ship-gray)";
             }
 
+            let longPressTimeout;
+            gridSquare.addEventListener("mousedown", (event) => {
+                // Prevent the default action of the mousedown event
+                event.preventDefault();
+                longPressTimeout = setTimeout(() => {
+                    console.log(`Long press detected ${i},${j}`);
+                    updateBoard(player);
+                    const userInput = prompt("Enter the coordinates in the format x,y");
+                    if(userInput !== null) {
+                        const coordinates = userInput.split(',');
+                        const x = parseInt(coordinates[0].trim(), 10);
+                        const y = parseInt(coordinates[1].trim(), 10);
+
+                        if(!isNaN(x) && !isNaN(y)) {
+                            console.log(`The user entered ${x},${y}`);
+                        } else {
+                            console.log(`Invalid coordinates entered`);
+                        }
+
+                        const shipToMove = getHitShip(player.gameboard.unsunkShips,i,j);
+                        console.log(shipToMove);
+
+                        player.gameboard.moveShip(shipToMove+1,x,y);
+                        updateBoard(player);
+                    } else {
+                        console.log("User cancelled the prompt");
+                    }
+                }, 1000);
+            });
+
+            gridSquare.addEventListener("mouseup",() => {
+                clearTimeout();
+            });
+
             // TODO - rotating ship not done
             gridSquare.addEventListener("click",() => {
                 
@@ -30,9 +64,8 @@ function updateBoard(player) {
                 } catch(err) {
                     console.log(err);
                 }
-
                 updateBoard(player);
-            })
+            });
 
             moveBoard.appendChild(gridSquare);
         }
@@ -49,6 +82,40 @@ function getBoard(player) {
                 gridSquare.style.backgroundColor = "var(--set-ship-gray)";
             }
 
+            let longPressTimeout;
+            gridSquare.addEventListener("mousedown", (event) => {
+                // Prevent the default action of the mousedown event
+                event.preventDefault();
+                longPressTimeout = setTimeout(() => {
+                    console.log(`Long press detected ${i},${j}`);
+                    updateBoard(player);
+                    const userInput = prompt("Enter the coordinates in the format x,y");
+                    if(userInput !== null) {
+                        const coordinates = userInput.split(',');
+                        const x = parseInt(coordinates[0].trim(), 10);
+                        const y = parseInt(coordinates[1].trim(), 10);
+
+                        if(!isNaN(x) && !isNaN(y)) {
+                            console.log(`The user entered ${x},${y}`);
+                        } else {
+                            console.log(`Invalid coordinates entered`);
+                        }
+
+                        const shipToMove = getHitShip(player.gameboard.unsunkShips,i,j);
+                        console.log(shipToMove);
+
+                        player.gameboard.moveShip(shipToMove+1,x,y);
+                        updateBoard(player);
+                    } else {
+                        console.log("User cancelled the prompt");
+                    }
+                }, 500);
+            });
+
+            gridSquare.addEventListener("mouseup",() => {
+                clearTimeout();
+            });
+
             // TODO - rotating ship not done
             gridSquare.addEventListener("click",() => {
                 
@@ -64,7 +131,6 @@ function getBoard(player) {
                 } catch(err) {
                     console.log(err);
                 }
-
                 updateBoard(player);
             })
 
