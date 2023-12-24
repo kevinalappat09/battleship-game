@@ -12,16 +12,16 @@ import init_main_screen_f from "./ui/screen/init_main_screen";
 import "./styles.css";
 import playCPUGame from "./game";
 import newPlayer from "./player";
+import moveShip from "./moveShip";
 
 const bodyContainer = document.querySelector(".container");
 
 function init_CPU_game() {
     const player1 = newPlayer("Bingus","red");
-    
     const player2 = newPlayer("CPU","blue");
 
     bodyContainer.innerHTML = "";
-    playCPUGame(player1,player2);
+    moveShip(player1);
 }
 
 function init_player_game() {

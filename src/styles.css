@@ -141,3 +141,41 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.move-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+}
+
+.move-board {
+    display : grid;
+    grid-template-columns: repeat(9,60px);
+    grid-template-rows: repeat(9,60px);
+    box-shadow: 0 0 0 1px #000;
+}
+
+.move-player-grid-square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+    box-shadow: 0 0 0 1px #000;
+}
+
+.confirm-button {
+    border : 5px solid black;
+    font-weight: 700;
+    transition: 500ms;
+}
+
+.confirm-button:hover {
+    border: 5px solid #fafafa;
+    color: #fafafa;
+}
