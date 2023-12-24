@@ -14,23 +14,35 @@ import playCPUGame from "./game";
 import newPlayer from "./player";
 import moveShip from "./moveShip";
 import moveCPUShips from "./moveCPUShips";
-
 import generateHeading from "./ui/element/headingGen";
+import getColor from "./getColor";
+import generateButton from "./ui/element/btnGen";
+import generateDiv from "./ui/element/divGen";
 
 const bodyContainer = document.querySelector(".container");
 
 function displayWinMessage(player) {
     if(player) {
         bodyContainer.innerHTML = "";
+        const winContainer = generateDiv("win-container");
+        winContainer.style.backgroundColor = getColor(player.color);
+
         const winMessage = generateHeading("win-message");
-        winMessage.style.backgroundColor = player.color;
         winMessage.textContent = `${player.name} has won`;
-        bodyContainer.appendChild(winMessage);
+        winContainer.appendChild(winMessage);
+
+        const winButton = generateButton("win-button");
+        winButton.style.backgroundColor = getColor(player.color);
+        winButton.textContent = `Go Back Home`;
+        winButton.addEventListener("click",pregame);
+        winContainer.appendChild(winButton);
+
+        bodyContainer.appendChild(winContainer);
     }
 }
 
 function init_CPU_game() {
-    const player1 = newPlayer("Bingus","red");
+    const player1 = newPlayer("Bingus","pink");
     const CPU = newPlayer("CPU","blue");
 
     bodyContainer.innerHTML = "";
@@ -40,18 +52,27 @@ function init_CPU_game() {
                 displayWinMessage(winner);
             });
         })
-        // Make it so that the playCPU game can take a function argument for oncomplete whihc will do as we say it to.
     });
     
     
 }
 
 function init_player_game() {
-    console.log("Initialzied player game");
+    const player1 = newPlayer("Bingus","pink");
+    const player2 = newPlayer("Spoingus","blue");
+
     bodyContainer.innerHTML = "";
+    moveShip(player1,() => {
+        moveShip(player2,() => {
+            playCPUGame(player1,player2,(winner) => {
+                displayWinMessage(winner);
+            });
+        })
+    });
 }
 
 function pregame() {
+    bodyContainer.innerHTML = "";
     bodyContainer.appendChild(init_main_screen_f());
     const mainLeftButton = document.querySelector(".main-left-button");
     const mainRightButton = document.querySelector(".main-right-button");

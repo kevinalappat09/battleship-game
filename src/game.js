@@ -16,7 +16,6 @@ function gameLoop(currPlayer,oppPlayer,onComplete) {
             toAttackY = Math.floor(Math.random() * 9) + 1;
         } while (oppPlayer.gameboard.hitSpots.some(([x, y]) => x === toAttackX && y === toAttackY));
 
-        console.log(toAttackX,toAttackY);
         try {
             oppPlayer.gameboard.receiveAttack(toAttackX,toAttackY);
 
@@ -54,31 +53,10 @@ function gameLoop(currPlayer,oppPlayer,onComplete) {
     }
 }
 
-// function play2PGame(player1, player2) {
-//     let currentPlayer = 1;
-//     try {
-//         while(player1.gameboard.allSunk() === false && player2.gameboard.allSunk() === false) {
-//             if(currentPlayer === 1) {
-                
-//                 //player one plays
-//             } else if(currentPlayer === 2) {
-//                 // player two plays
-//             }
-    
-//             //player switch
-//             if(currentPlayer === 1) {
-//                 // display modal asking player 1 to give the device to player 2
-//                 currentPlayer = 2;
-//             } else {
-//                 // display modal asking player 2 to give the device to player 1
-//                 currentPlayer = 1;
-//             }
-//         }
-//     } catch(err) {
-//         console.log(err);
-//     }
-    
-// }
+function play2PGame(player1, player2) {
+    bodyContainer.innerHTML = "";
+    gameLoop(player1,player2);
+}
 
 
 function playCPUGame(player1, CPU,onComplete) {

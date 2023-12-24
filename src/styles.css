@@ -1,6 +1,8 @@
 :root {
     --main-screen-red : #ef4444;
     --main-screen-blue : #38bdf8;
+    --main-screen-green : #4ade80;
+    --main-screen-pink : #e879f9;
 
     --missed-hit-black : black;
     --ship-hit-gold : gold;
@@ -134,10 +136,11 @@ body {
     box-shadow: 0 0 0 1px #000;
 }
 
-.win-message {
+.win-container {
     height: 100vh;
     width: 100%;
     display : flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }

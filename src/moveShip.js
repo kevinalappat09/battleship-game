@@ -150,7 +150,7 @@ function moveShip(player,onConfirm) {
     moveContainer.style.backgroundColor = colorToApply;
 
     const moveHeading = generateHeading("move-heading");
-    moveHeading.textContent = "Set Your Board";
+    moveHeading.textContent = `${player.name} Set Your Board`;
     moveContainer.appendChild(moveHeading);
 
     const boardContainer = generateDiv("board-container");
